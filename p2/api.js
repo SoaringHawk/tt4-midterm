@@ -60,19 +60,19 @@ app.delete('/:id', function(request, response){
     
     if(item_index_in_array !== null){
         if(isIdInOrder(item_id)){
-            return response.status(409).send('You cannot delete this as it is already in order');
+            return response.status(409).json({ message: 'You cannot delete this as it is in stock'});
         }
         else if(checkInventory(item_id) !== 0){
-            return response.status(409).send('You cannot delete this as it is in stock')
+            return response.status(409).json({ message: 'You cannot delete this as it is in stock'});
         }
         else{
             products.splice(item_index_in_array,1)
-            return response.status(200).end();
+            return response.status(200).json({ message: 'Product deleted successfully', products });
         }
         
     }
     else{
-        return response.status(404).send('This item does not exist')
+        return response.status(404).json({ message: 'Product not found' })
     }
 
 })
